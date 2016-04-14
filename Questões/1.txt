@@ -1,0 +1,36 @@
+R10#traceroute 172.16.1.2
+
+Type escape sequence to abort.
+Tracing the route to 172.16.1.2
+
+  1 192.168.1.1 68 msec 64 msec 68 msec
+  2 192.168.1.130 64 msec 60 msec 60 msec
+  3 192.168.1.162 92 msec 92 msec 60 msec
+  4 192.168.100.2 116 msec 120 msec 132 msec
+  5 172.20.1.2 160 msec 120 msec 120 msec
+  6  * 
+    172.16.1.2 124 msec * 
+R10#traceroute 172.16.1.2
+
+Type escape sequence to abort.
+Tracing the route to 172.16.1.2
+
+  1 192.168.1.1 64 msec 60 msec 60 msec
+  2 192.168.1.130 64 msec 60 msec 60 msec
+  3 192.168.1.162 88 msec 96 msec 100 msec
+  4 192.168.100.2 92 msec 88 msec 92 msec
+  5 172.20.1.2 120 msec 120 msec 128 msec
+  6 172.16.1.2 120 msec *  148 msec
+R10#traceroute 172.16.1.2
+
+Type escape sequence to abort.
+Tracing the route to 172.16.1.2
+
+  1 192.168.1.1 36 msec 32 msec 36 msec
+  2 192.168.1.130 72 msec 60 msec 64 msec
+  3 192.168.1.162 88 msec 92 msec 64 msec
+  4 192.168.100.2 92 msec 88 msec 100 msec
+  5  *  *  * 
+  6  *  *  * 
+  7  * 
+    192.168.1.162 !H  * 

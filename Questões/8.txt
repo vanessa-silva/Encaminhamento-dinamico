@@ -1,0 +1,13 @@
+R10#ping 192.168.1.162
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.162, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 60/68/92 ms
+R10#ping 192.168.1.162
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.162, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 40/59/68 ms
+R10#

@@ -1,0 +1,30 @@
+Router#show ip rip database
+172.16.0.0/16    auto-summary
+172.16.1.0/24
+    [6] via 192.168.1.130, 00:00:19, FastEthernet1/1
+172.16.2.0/24
+    [6] via 192.168.1.130, 00:00:19, FastEthernet1/1
+172.17.0.0/16    auto-summary
+172.17.0.0/16
+    [6] via 192.168.1.130, 00:00:19, FastEthernet1/1
+172.20.0.0/16    auto-summary
+172.20.1.0/30
+    [6] via 192.168.1.130, 00:00:19, FastEthernet1/1
+172.20.1.4/30
+    [6] via 192.168.1.130, 00:00:19, FastEthernet1/1
+172.20.1.8/30
+    [6] via 192.168.1.130, 00:00:19, FastEthernet1/1
+172.20.1.12/30
+    [6] via 192.168.1.130, 00:00:19, FastEthernet1/1
+192.168.1.0/24    auto-summary
+192.168.1.0/25    directly connected, FastEthernet1/0
+192.168.1.128/27    directly connected, FastEthernet1/1
+192.168.1.160/27
+    [1] via 192.168.1.130, 00:00:19, FastEthernet1/1
+192.168.1.192/27
+    [1] via 192.168.1.130, 00:00:21, FastEthernet1/1
+192.168.1.224/27
+    [2] via 192.168.1.130, 00:00:21, FastEthernet1/1
+192.168.100.0/24    auto-summary
+192.168.100.0/24
+    [6] via 192.168.1.130, 00:00:22, FastEthernet1/1

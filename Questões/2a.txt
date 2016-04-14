@@ -1,0 +1,16 @@
+Router#debug ip ospf adj 
+OSPF adjacency events debugging is on
+Router#
+*Apr 14 15:58:38.411: OSPF: 0.0.0.9 address 172.20.1.9 on FastEthernet1/1 is dead
+*Apr 14 15:58:38.411: OSPF: 0.0.0.9 address 172.20.1.9 on FastEthernet1/1 is dead, state DOWN
+*Apr 14 15:58:38.411: %OSPF-5-ADJCHG: Process 8, Nbr 0.0.0.9 on FastEthernet1/1 from FULL to DOWN, Neighbor Down: Dead timer expired
+*Apr 14 15:58:38.415: OSPF: Neighbor change Event on interface FastEthernet1/1
+*Apr 14 15:58:38.415: OSPF: DR/BDR election on FastEthernet1/1 
+*Apr 14 15:58:38.415: OSPF: Elect BDR 0.0.0.8
+*Apr 14 15:58:38.415: OSPF: Elect DR 0.0.0.8
+*Apr 14 15:58:38.415: OSPF: Elect BDR 0.0.0.0
+*Apr 14 15:58:38.415: OSPF: Elect DR 0.0.0.8
+*Apr 14 15:58:38.419:        DR: 0.0.0.8 (Id)   BDR: none 
+*Apr 14 15:58:38.419: OSPF: Remember old DR 0.0.0.9 (id)
+*Apr 14 15:58:38.915: OSPF: Build router LSA for area 2, router ID 0.0.0.8, seq 0x80000005
+*Apr 14 15:58:38.919: OSPF: No full nbrs to build Net Lsa for interface FastEthernet1/1

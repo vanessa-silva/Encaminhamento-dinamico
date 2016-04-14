@@ -1,0 +1,54 @@
+*Apr 14 17:09:14.219: RIP: received v2 update from 192.168.1.129 on FastEthernet1/1
+*Apr 14 17:09:14.219:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:09:14.223:      192.168.100.0/24 via 0.0.0.0 in 16 hops  (inaccessible)
+*Apr 14 17:09:19.119: RIP: sending v2 update to 255.255.255.255 via FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:09:19.119: RIP: build update entries
+*Apr 14 17:09:19.119: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:09:19.119: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:19.123: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:19.123: 	192.168.100.0/24 via 0.0.0.0, metric 16, tag 0
+*Apr 14 17:09:24.187: RIP: received v2 update from 192.168.1.162 on FastEthernet2/0
+*Apr 14 17:09:24.187:      192.168.1.224/27 via 0.0.0.0 in 1 hops
+*Apr 14 17:09:24.191:      192.168.100.0/24 via 0.0.0.0 in 16 hops  (inaccessible)
+*Apr 14 17:09:25.543: RIP: sending v2 update to 255.255.255.255 via FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:09:25.543: RIP: build update entries
+*Apr 14 17:09:25.547: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:25.547: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:25.547: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:09:25.547: 	192.168.100.0/24 via 0.0.0.0, metric 16, tag 0
+*Apr 14 17:09:40.339: RIP: received v2 update from 192.168.1.129 on FastEthernet1/1
+*Apr 14 17:09:40.339:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:09:46.243: RIP: sending v2 update to 255.255.255.255 via FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:09:46.243: RIP: build update entries
+*Apr 14 17:09:46.243: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:09:46.247: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:46.247: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:53.971: RIP: sending v2 update to 255.255.255.255 via FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:09:53.971: RIP: build update entries
+*Apr 14 17:09:53.971: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:53.975: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:53.975: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:10:07.383: RIP: received v2 update from 192.168.1.129 on FastEthernet1/1
+*Apr 14 17:10:07.383:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:10:13.087: RIP: sending v2 update to 255.255.255.255 via FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:10:13.087: RIP: build update entries
+*Apr 14 17:10:13.087: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:10:13.087: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:13.091: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:22.991: RIP: sending v2 update to 255.255.255.255 via FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:10:22.991: RIP: build update entries
+*Apr 14 17:10:22.991: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:22.995: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:22.995: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:10:32.907: RIP: received v2 update from 192.168.1.129 on FastEthernet1/1
+*Apr 14 17:10:32.907:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:10:42.323: RIP: sending v2 update to 255.255.255.255 via FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:10:42.323: RIP: build update entries
+*Apr 14 17:10:42.323: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:10:42.327: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:42.327: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:48.643: RIP: sending v2 update to 255.255.255.255 via FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:10:48.643: RIP: build update entries
+*Apr 14 17:10:48.643: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:48.647: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:48.647: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
