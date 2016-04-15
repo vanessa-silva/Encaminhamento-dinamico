@@ -1,0 +1,38 @@
+Router#show ip ospf database 
+
+            OSPF Router with ID (0.0.0.8) (Process ID 8)
+
+		Router Link States (Area 2)
+
+Link ID         ADV Router      Age         Seq#       Checksum Link count
+0.0.0.6         0.0.0.6         795         0x80000002 0x00423B 1
+0.0.0.8         0.0.0.8         795         0x80000002 0x000FE3 3
+0.0.0.9         0.0.0.9         795         0x80000002 0x006346 2
+
+		Net Link States (Area 2)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+172.20.1.9      0.0.0.9         796         0x80000001 0x000751
+172.20.1.13     0.0.0.8         795         0x80000001 0x00BE99
+
+		Summary Net Link States (Area 2)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+172.16.1.0      0.0.0.6         786         0x80000001 0x009DC7
+172.20.1.0      0.0.0.6         790         0x80000003 0x00F279
+172.20.1.4      0.0.0.6         786         0x80000001 0x00332D
+192.168.100.0   0.0.0.6         790         0x80000003 0x00C399
+          
+		Summary ASB Link States (Area 2)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+0.0.0.3         0.0.0.6         786         0x80000001 0x009D8B
+
+		Type-5 AS External Link States
+
+Link ID         ADV Router      Age         Seq#       Checksum Tag
+192.168.1.0     0.0.0.3         817         0x80000001 0x003F23 0
+192.168.1.128   0.0.0.3         840         0x80000001 0x007C05 0
+192.168.1.160   0.0.0.3         842         0x80000001 0x003B26 0
+192.168.1.192   0.0.0.3         840         0x80000001 0x00F947 0
+192.168.1.224   0.0.0.3         842         0x80000001 0x00B868 0

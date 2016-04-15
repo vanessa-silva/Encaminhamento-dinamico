@@ -1,0 +1,149 @@
+\section*{Questões}
+\paragraph{1.}
+\texttt{traceroute} antes do corte da ligação entre \textsf{R6} e \textsf{R7}:
+\begin{verbatim}
+R10#traceroute 172.16.1.2
+
+Type escape sequence to abort.
+Tracing the route to 172.16.1.2
+
+  1 192.168.1.1 64 msec 60 msec 60 msec
+  2 192.168.1.130 64 msec 60 msec 60 msec
+  3 192.168.1.162 88 msec 96 msec 100 msec
+  4 192.168.100.2 92 msec 88 msec 92 msec
+  5 172.20.1.2 120 msec 120 msec 128 msec
+  6 172.16.1.2 120 msec *  148 msec
+\end{verbatim}\\
+\texttt{traceroute} após o corte da ligação entre \textsf{R6} e \textsf{R7}:
+\begin{verbatim}
+R10#traceroute 172.16.1.2
+
+Type escape sequence to abort.
+Tracing the route to 172.16.1.2
+
+  1 192.168.1.1 36 msec 32 msec 36 msec
+  2 192.168.1.130 72 msec 60 msec 64 msec
+  3 192.168.1.162 88 msec 92 msec 64 msec
+  4 192.168.100.2 92 msec 88 msec 100 msec
+  5  *  *  * 
+  6  *  *  * 
+  7  * 
+    192.168.1.162 !H  * 
+\end{verbatim}
+
+\subparagraph{a.}
+\begin{verbatim}
+Router#show ip ospf database 
+
+            OSPF Router with ID (0.0.0.6) (Process ID 6)
+
+		Router Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum Link count
+0.0.0.3         0.0.0.3         1670        0x80000003 0x00DDA3 1
+0.0.0.4         0.0.0.4         1653        0x80000003 0x009DE6 1
+0.0.0.5         0.0.0.5         1643        0x80000003 0x009BE5 1
+0.0.0.6         0.0.0.6         1665        0x80000003 0x00B8C2 1
+
+		Net Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+192.168.100.2   0.0.0.6         1665        0x80000003 0x008EB9
+
+		Summary Net Link States (Area 0)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+172.16.2.0      0.0.0.6         1665        0x80000002 0x0090D2
+172.17.0.0      0.0.0.6         1665        0x80000002 0x00FE5B
+172.20.1.0      0.0.0.6         485         0x8000000A 0x00E480
+172.20.1.8      0.0.0.6         1665        0x80000002 0x000952
+172.20.1.12     0.0.0.6         1665        0x80000004 0x0078E6
+
+		Router Link States (Area 1)
+
+Link ID         ADV Router      Age         Seq#       Checksum Link count
+0.0.0.6         0.0.0.6         496         0x80000006 0x006EE9 1
+0.0.0.7         0.0.0.7         800         0x80000006 0x007F90 3
+0.0.0.9         0.0.0.9         1599        0x80000003 0x005630 1
+
+		Net Link States (Area 1)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+172.20.1.2      0.0.0.7         796         0x80000004 0x00233F
+172.20.1.6      0.0.0.9         1599        0x80000002 0x001546
+
+		Summary Net Link States (Area 1)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+172.16.2.0      0.0.0.6         1666        0x80000002 0x0090D2
+172.17.0.0      0.0.0.6         1666        0x80000002 0x00FE5B
+172.20.1.8      0.0.0.6         1666        0x80000002 0x000952
+172.20.1.12     0.0.0.6         1666        0x80000004 0x0078E6
+192.168.100.0   0.0.0.6         1666        0x80000004 0x00C19A
+          
+		Summary ASB Link States (Area 1)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+0.0.0.3         0.0.0.6         1666        0x80000002 0x009B8C
+
+		Router Link States (Area 2)
+
+Link ID         ADV Router      Age         Seq#       Checksum Link count
+0.0.0.6         0.0.0.6         1668        0x80000003 0x00403C 1
+0.0.0.8         0.0.0.8         1603        0x80000004 0x000BE5 3
+0.0.0.9         0.0.0.9         1600        0x80000003 0x006147 2
+
+		Net Link States (Area 2)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+172.20.1.9      0.0.0.9         1600        0x80000002 0x000552
+172.20.1.13     0.0.0.8         1603        0x80000002 0x00BC9A
+
+		Summary Net Link States (Area 2)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+172.20.1.0      0.0.0.6         487         0x8000000A 0x00E480
+192.168.100.0   0.0.0.6         1668        0x80000004 0x00C19A
+
+		Summary ASB Link States (Area 2)
+
+Link ID         ADV Router      Age         Seq#       Checksum
+0.0.0.3         0.0.0.6         1668        0x80000002 0x009B8C
+
+		Type-5 AS External Link States
+
+Link ID         ADV Router      Age         Seq#       Checksum Tag
+192.168.1.0     0.0.0.3         1673        0x80000002 0x003D24 0
+192.168.1.128   0.0.0.3         1673        0x80000002 0x007A06 0
+192.168.1.160   0.0.0.3         1673        0x80000002 0x003927 0
+192.168.1.192   0.0.0.3         1673        0x80000002 0x00F748 0
+192.168.1.224   0.0.0.3         1673        0x80000002 0x00B669 0
+\end{verbatim}
+
+\subparagraph{b.}
+Com base no resultado da alínea anterior e no conhecimento que tem do OSPF, justifique a impossibilidade de fazer a alteração pedida (Corte a ligação entre R6 e R7 (apenas para esta pergunta) de modo a que o percurso dos pacotes seja desviado para atravessar R8 e R9 ).
+
+\paragraph{2.}
+\subparagraph{a.}
+Como podemos verificar a baixo, no \emph{router} \textsf{R8}, o estado do vizinho \textsf{R9} fica \texttt{DOWN}, (\texttt{state DOWN}). O evento que ocorreu nesse instante e despoletou essa mudança foi (...). ???
+
+\begin{verbatim}
+Router#debug ip ospf adj 
+OSPF adjacency events debugging is on
+Router#
+*Apr 14 15:58:38.411: OSPF: 0.0.0.9 address 172.20.1.9 on FastEthernet1/1 is dead
+*Apr 14 15:58:38.411: OSPF: 0.0.0.9 address 172.20.1.9 on FastEthernet1/1 is dead, state DOWN
+*Apr 14 15:58:38.411: %OSPF-5-ADJCHG: Process 8, Nbr 0.0.0.9 on FastEthernet1/1 from FULL to DOWN, Neighbor Down: Dead timer expired
+*Apr 14 15:58:38.415: OSPF: Neighbor change Event on interface FastEthernet1/1
+*Apr 14 15:58:38.415: OSPF: DR/BDR election on FastEthernet1/1 
+*Apr 14 15:58:38.415: OSPF: Elect BDR 0.0.0.8
+*Apr 14 15:58:38.415: OSPF: Elect DR 0.0.0.8
+*Apr 14 15:58:38.415: OSPF: Elect BDR 0.0.0.0
+*Apr 14 15:58:38.415: OSPF: Elect DR 0.0.0.8
+*Apr 14 15:58:38.419:        DR: 0.0.0.8 (Id)   BDR: none 
+*Apr 14 15:58:38.419: OSPF: Remember old DR 0.0.0.9 (id)
+*Apr 14 15:58:38.915: OSPF: Build router LSA for area 2, router ID 0.0.0.8, seq 0x80000005
+*Apr 14 15:58:38.919: OSPF: No full nbrs to build Net Lsa for interface FastEthernet1/1
+\end{verbatim}
+
+\subparagraph{b.}

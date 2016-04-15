@@ -1,0 +1,6 @@
+Router#show ip ospf neighbor 
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+0.0.0.3           1   FULL/DROTHER    00:00:30    192.168.100.1   FastEthernet1/0
+0.0.0.4           1   FULL/DROTHER    00:00:39    192.168.100.253 FastEthernet1/0
+0.0.0.6           1   FULL/DR         00:00:30    192.168.100.2   FastEthernet1/0
