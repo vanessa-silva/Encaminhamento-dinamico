@@ -121,7 +121,7 @@ Link ID         ADV Router      Age         Seq#       Checksum Tag
 \end{verbatim}
 
 \subparagraph{b.}
-Com base no resultado da alínea anterior e no conhecimento que tem do OSPF, justifique a impossibilidade de fazer a alteração pedida (Corte a ligação entre R6 e R7 (apenas para esta pergunta) de modo a que o percurso dos pacotes seja desviado para atravessar R8 e R9 ).
+Com base no resultado da alínea anterior e no conhecimento que tem do OSPF, justifique a impossibilidade de fazer a alteração pedida (Corte a ligação entre R6 e R7 (apenas para esta pergunta) de modo a que o percurso dos pacotes seja desviado para atravessar R8 e R9 ). ??????
 
 \paragraph{2.}
 \subparagraph{a.}
@@ -132,8 +132,10 @@ Router#debug ip ospf adj
 OSPF adjacency events debugging is on
 Router#
 *Apr 14 15:58:38.411: OSPF: 0.0.0.9 address 172.20.1.9 on FastEthernet1/1 is dead
-*Apr 14 15:58:38.411: OSPF: 0.0.0.9 address 172.20.1.9 on FastEthernet1/1 is dead, state DOWN
-*Apr 14 15:58:38.411: %OSPF-5-ADJCHG: Process 8, Nbr 0.0.0.9 on FastEthernet1/1 from FULL to DOWN, Neighbor Down: Dead timer expired
+*Apr 14 15:58:38.411: OSPF: 0.0.0.9 address 172.20.1.9 on FastEthernet1/1 is dead,
+ state DOWN
+*Apr 14 15:58:38.411: %OSPF-5-ADJCHG: Process 8, Nbr 0.0.0.9 on FastEthernet1/1 
+from FULL to DOWN, Neighbor Down: Dead timer expired
 *Apr 14 15:58:38.415: OSPF: Neighbor change Event on interface FastEthernet1/1
 *Apr 14 15:58:38.415: OSPF: DR/BDR election on FastEthernet1/1 
 *Apr 14 15:58:38.415: OSPF: Elect BDR 0.0.0.8
@@ -142,8 +144,406 @@ Router#
 *Apr 14 15:58:38.415: OSPF: Elect DR 0.0.0.8
 *Apr 14 15:58:38.419:        DR: 0.0.0.8 (Id)   BDR: none 
 *Apr 14 15:58:38.419: OSPF: Remember old DR 0.0.0.9 (id)
-*Apr 14 15:58:38.915: OSPF: Build router LSA for area 2, router ID 0.0.0.8, seq 0x80000005
-*Apr 14 15:58:38.919: OSPF: No full nbrs to build Net Lsa for interface FastEthernet1/1
+*Apr 14 15:58:38.915: OSPF: Build router LSA for area 2, router ID 0.0.0.8, 
+ seq 0x80000005
+*Apr 14 15:58:38.919: OSPF: No full nbrs to build Net Lsa for interface 
+ FastEthernet1/1
 \end{verbatim}
 
 \subparagraph{b.}
+Explique detalhadamente cada um dos LSA enviados por R8 a R6.????
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth, height=0.45\textheight]{2b.png}
+\label{fig:captura R8-R6}
+\caption{Captura de pacotes na ligação entre \textsf{R6} e \textsf{R8}.}
+\end{figure}
+
+\subparagraph{c.}
+A mensagem que permite ao \emph{router} \textsf{R9} saber que tem comunicação bidirecional (\emph{two-way}) com \textsf{R8} apresenta-se na figura a baixo, devidamente sinalizada. Escolhemos esta mensagem, \emph{Hello Packet}, uma vez que é o sub-protocolo \emph{Hello} que verifica conexões bidirecionais entre os vizinhos. Quando um \emph{router}, \textsf{R8}, deteta o seu \emph{Router ID} num \emph{Hello} recebido, sabe que existe comunicação bidirecional com o vizinho que o enviou, \textsf{R9}, como se pode analisar na figura seguinte.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth, height=0.45\textheight]{2c.png}
+\label{fig:captura R8-R9}
+\caption{Captura de pacotes na ligação entre \textsf{R8} e \textsf{R9}.}
+\end{figure}
+
+\subparagraph{d.}
+
+Analise todos os anúncios (LSA) contidos em todas as mensagens LS Update trocadas entre R8 e R9. Que tipos de anúncio encontrou? Para que serve cada um desses tipos?
+(este LSA's estou na captura 2g.pcapng) ????
+
+\subparagraph{e.}
+Para cada um dos tipos identificados na alínea anterior, diga o que contêm (significado) os campos Link State ID e Advertising Router e identifique e diga o que contêm (significado) outros campos importantes (para a construção do grafo da rede) desse tipo específico, exemplificando com LSA concretos.  ????
+
+\subparagraph{f.}
+Procure o último anúncio do tipo Router LSA originado pelo router R8. Para cada uma das ligações identificadas nesse anúncio, indique o respectivo tipo, bem como os valores dos campos ID e Data e o seu significado. ?????
+
+\subparagraph{g.}
+Volte a iniciar R7 e aguarde até o encaminhamento estabilizar. Que notificações foram enviadas por R8 a R9? Indique a finalidade de cada uma dessas notificações.
+??????
+
+\paragraph{3.}
+\emph{Router} \textsf{R3}:
+\begin{verbatim}
+Router#show ip ospf interface FastEthernet 1/1
+%OSPF: OSPF not enabled on FastEthernet1/1
+Router#show ip ospf interface FastEthernet 1/0
+%OSPF: OSPF not enabled on FastEthernet1/0
+Router#show ip ospf interface FastEthernet 2/0
+FastEthernet2/0 is up, line protocol is up 
+  Internet Address 192.168.100.1/24, Area 0 
+  Process ID 3, Router ID 0.0.0.3, Network Type BROADCAST, Cost: 10
+  Transmit Delay is 1 sec, State DROTHER, Priority 1 
+  Designated Router (ID) 0.0.0.6, Interface address 192.168.100.2
+  Backup Designated router (ID) 0.0.0.5, Interface address 192.168.100.254
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    oob-resync timeout 40
+    Hello due in 00:00:00
+  Supports Link-local Signaling (LLS)
+  Index 1/1, flood queue length 0
+  Next 0x0(0)/0x0(0)
+  Last flood scan length is 0, maximum is 5
+  Last flood scan time is 0 msec, maximum is 4 msec
+  Neighbor Count is 3, Adjacent neighbor count is 2 
+    Adjacent with neighbor 0.0.0.5  (Backup Designated Router)
+    Adjacent with neighbor 0.0.0.6  (Designated Router)
+  Suppress hello for 0 neighbor(s)
+\end{verbatim}
+
+\emph{Router} \textsf{R4}:
+\begin{verbatim}
+Router#show ip ospf interface FastEthernet 1/0
+FastEthernet1/0 is up, line protocol is up 
+  Internet Address 192.168.100.253/24, Area 0 
+  Process ID 4, Router ID 0.0.0.4, Network Type BROADCAST, Cost: 10
+  Transmit Delay is 1 sec, State DROTHER, Priority 1 
+  Designated Router (ID) 0.0.0.6, Interface address 192.168.100.2
+  Backup Designated router (ID) 0.0.0.5, Interface address 192.168.100.254
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    oob-resync timeout 40
+    Hello due in 00:00:08
+  Supports Link-local Signaling (LLS)
+  Index 1/1, flood queue length 0
+  Next 0x0(0)/0x0(0)
+  Last flood scan length is 0, maximum is 1
+  Last flood scan time is 0 msec, maximum is 4 msec
+  Neighbor Count is 3, Adjacent neighbor count is 2 
+    Adjacent with neighbor 0.0.0.5  (Backup Designated Router)
+    Adjacent with neighbor 0.0.0.6  (Designated Router)
+  Suppress hello for 0 neighbor(s)
+\end{verbatim}
+
+\emph{Router} \textsf{R5}:
+\begin{verbatim}
+Router#show ip ospf interface FastEthernet 1/0
+FastEthernet1/0 is up, line protocol is up 
+  Internet Address 192.168.100.254/24, Area 0 
+  Process ID 5, Router ID 0.0.0.5, Network Type BROADCAST, Cost: 10
+  Transmit Delay is 1 sec, State BDR, Priority 1 
+  Designated Router (ID) 0.0.0.6, Interface address 192.168.100.2
+  Backup Designated router (ID) 0.0.0.5, Interface address 192.168.100.254
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    oob-resync timeout 40
+    Hello due in 00:00:01
+  Supports Link-local Signaling (LLS)
+  Index 1/1, flood queue length 0
+  Next 0x0(0)/0x0(0)
+  Last flood scan length is 0, maximum is 1
+  Last flood scan time is 0 msec, maximum is 4 msec
+  Neighbor Count is 3, Adjacent neighbor count is 3 
+    Adjacent with neighbor 0.0.0.3
+    Adjacent with neighbor 0.0.0.4
+    Adjacent with neighbor 0.0.0.6  (Designated Router)
+  Suppress hello for 0 neighbor(s)
+\end{verbatim}
+
+\emph{Router} \textsf{R6}:
+\begin{verbatim}
+Router#show ip ospf interface FastEthernet 1/0
+FastEthernet1/0 is up, line protocol is up 
+  Internet Address 172.20.1.14/30, Area 2 
+  Process ID 6, Router ID 0.0.0.6, Network Type BROADCAST, Cost: 10
+  Transmit Delay is 1 sec, State BDR, Priority 1 
+  Designated Router (ID) 0.0.0.8, Interface address 172.20.1.13
+  Backup Designated router (ID) 0.0.0.6, Interface address 172.20.1.14
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    oob-resync timeout 40
+    Hello due in 00:00:04
+  Supports Link-local Signaling (LLS)
+  Index 1/2, flood queue length 0
+  Next 0x0(0)/0x0(0)
+  Last flood scan length is 1, maximum is 6
+  Last flood scan time is 0 msec, maximum is 4 msec
+  Neighbor Count is 1, Adjacent neighbor count is 1 
+    Adjacent with neighbor 0.0.0.8  (Designated Router)
+  Suppress hello for 0 neighbor(s)
+Router#show ip ospf interface FastEthernet 1/1
+FastEthernet1/1 is up, line protocol is up 
+  Internet Address 172.20.1.1/30, Area 1 
+  Process ID 6, Router ID 0.0.0.6, Network Type BROADCAST, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1 
+  Designated Router (ID) 0.0.0.6, Interface address 172.20.1.1
+  Backup Designated router (ID) 0.0.0.7, Interface address 172.20.1.2
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    oob-resync timeout 40
+    Hello due in 00:00:02
+  Supports Link-local Signaling (LLS)
+  Index 1/1, flood queue length 0
+  Next 0x0(0)/0x0(0)
+  Last flood scan length is 1, maximum is 6
+  Last flood scan time is 0 msec, maximum is 4 msec
+  Neighbor Count is 1, Adjacent neighbor count is 1 
+    Adjacent with neighbor 0.0.0.7  (Backup Designated Router)
+  Suppress hello for 0 neighbor(s)
+Router#show ip ospf interface FastEthernet 2/0
+FastEthernet2/0 is up, line protocol is up 
+  Internet Address 192.168.100.2/24, Area 0 
+  Process ID 6, Router ID 0.0.0.6, Network Type BROADCAST, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1 
+  Designated Router (ID) 0.0.0.6, Interface address 192.168.100.2
+  Backup Designated router (ID) 0.0.0.5, Interface address 192.168.100.254
+  Timer intervals configured, Hello 10, Dead 40, Wait 40, Retransmit 5
+    oob-resync timeout 40
+    Hello due in 00:00:00
+  Supports Link-local Signaling (LLS)
+  Index 1/3, flood queue length 0
+  Next 0x0(0)/0x0(0)
+  Last flood scan length is 1, maximum is 8
+  Last flood scan time is 0 msec, maximum is 4 msec
+  Neighbor Count is 3, Adjacent neighbor count is 3 
+    Adjacent with neighbor 0.0.0.3
+    Adjacent with neighbor 0.0.0.4
+    Adjacent with neighbor 0.0.0.5  (Backup Designated Router)
+  Suppress hello for 0 neighbor(s)
+\end{verbatim}
+
+\subparagraph{a.}
+Para cada um dos routers indicados, diga quantas adjacências tem e relacione esse número com papel desempenhado pelo router na rede de acesso múltiplo. ?????
+
+\subparagraph{b.}
+Para que serve o Designated Router no OSPF?  ??????
+
+\paragraph{4.}
+\subparagraph{a.}
+Diga qual é o caminho seguido pelos pacotes ICMP echo request e echo reply e explique porquê.    ?????
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth, height=0.45\textheight]{4a.png}
+\label{fig:captura R7}
+\caption{Captura de pacotes na ligação entre as interfaces 172.20.1.2 e 172.20.1.5 de \textsf{R7}.}
+\end{figure}
+
+\subparagraph{b.}
+Se conseguiu, diga como; se não conseguiu, explique porquê (texRes). ?????
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth, height=0.45\textheight]{4b.png}
+\label{fig:custo da interface}
+\caption{Alteração do custo da interface 172.20.1.6 de \textsf{R9}.}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth, height=0.45\textheight]{4b_.png}
+\label{fig:captura}
+\caption{Captura de pacotes na ligação entre as interfaces 172.20.1.2 e 172.20.1.5 de \textsf{R7}.}
+\end{figure}
+
+\paragraph{5.}
+Como podemos verificar na figura seguinte, as mensagens RIP trocadas entre \textsf{R1} e \textsf{R2} são inicialmente enviadas para o IP 255.255.255.255, uma vez que o broadcast estava ativado. Uma vez desativado as mensagens RIP são enviadas para o IP 224.0.0.9.
+
+Explique a vantagem de usar esse endereço em vez do endereço de broadcast?????
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth, height=0.45\textheight]{5.png}
+\label{fig:captura}
+\caption{Capture de mensagens RIP trocadas entre \textsf{R1} e \textsf{R2}.}
+\end{figure}
+
+\paragraph{6.}
+\begin{verbatim}
+*Apr 14 17:00:31.055: RIP: sending v2 update to 224.0.0.9 via
+ FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:00:31.055: RIP: build update entries
+*Apr 14 17:00:31.055: 	172.16.1.0/24 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:31.059: 	172.16.2.0/24 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:31.059: 	172.17.0.0/16 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:31.059: 	172.20.1.0/30 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:31.059: 	172.20.1.4/30 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:31.063: 	172.20.1.8/30 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:31.063: 	172.20.1.12/30 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:31.063: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:00:31.067: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:00:31.067: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:00:31.067: 	192.168.100.0/24 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:35.871: RIP: received v2 update from 192.168.1.129 on
+ FastEthernet1/1
+*Apr 14 17:00:35.875:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:00:43.175: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:00:43.175: RIP: build update entries
+*Apr 14 17:00:43.175: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:00:43.179: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:00:43.179: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:00:48.691: RIP: received v2 update from 192.168.1.162 on
+ FastEthernet2/0
+*Apr 14 17:00:48.695:      172.16.1.0/24 via 0.0.0.0 in 5 hops
+*Apr 14 17:00:48.695:      172.16.2.0/24 via 0.0.0.0 in 5 hops
+*Apr 14 17:00:48.695:      172.17.0.0/16 via 0.0.0.0 in 5 hops
+*Apr 14 17:00:48.699:      172.20.1.0/30 via 0.0.0.0 in 5 hops
+*Apr 14 17:00:48.699:      172.20.1.4/30 via 0.0.0.0 in 5 hops
+*Apr 14 17:00:48.699:      172.20.1.8/30 via 0.0.0.0 in 5 hops
+*Apr 14 17:00:48.699:      172.20.1.12/30 via 0.0.0.0 in 5 hops
+*Apr 14 17:00:48.703:      192.168.1.224/27 via 0.0.0.0 in 1 hops
+*Apr 14 17:00:48.703:      192.168.100.0/24 via 0.0.0.0 in 5 hops
+*Apr 14 17:00:57.695: RIP: sending v2 update to 224.0.0.9 via
+ FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:00:57.695: RIP: build update entries
+*Apr 14 17:00:57.695: 	172.16.1.0/24 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:57.699: 	172.16.2.0/24 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:57.699: 	172.17.0.0/16 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:57.699: 	172.20.1.0/30 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:57.699: 	172.20.1.4/30 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:57.703: 	172.20.1.8/30 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:57.703: 	172.20.1.12/30 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:00:57.707: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:00:57.707: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:00:57.711: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:00:57.711: 	192.168.100.0/24 via 0.0.0.0, metric 6, tag 0
+*Apr 14 17:01:06.039: RIP: received v2 update from 192.168.1.129 on
+ FastEthernet1/1
+*Apr 14 17:01:06.039:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+\end{verbatim}
+
+\subparagraph{a.}
+Que diferenças encontra entre as mensagens enviadas numa e noutra interface?  ?????
+
+\subparagraph{b.}
+Como se chama e para que serve o mecanismo observado na alínea anterior?   ??????
+
+\paragraph{7.}
+\begin{verbatim}
+Router#no ip split-horizon
+Router#no redistribute rip
+\end{verbatim}
+
+\subparagraph{a.}
+\begin{verbatim}
+Router#debug ip rip
+*Apr 14 17:09:14.219: RIP: received v2 update from 192.168.1.129 on
+ FastEthernet1/1
+*Apr 14 17:09:14.219:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:09:14.223:      192.168.100.0/24 via 0.0.0.0 in 16 hops 
+ (inaccessible)
+*Apr 14 17:09:19.119: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:09:19.119: RIP: build update entries
+*Apr 14 17:09:19.119: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:09:19.119: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:19.123: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:19.123: 	192.168.100.0/24 via 0.0.0.0, metric 16, tag 0
+*Apr 14 17:09:24.187: RIP: received v2 update from 192.168.1.162 on
+ FastEthernet2/0
+*Apr 14 17:09:24.187:      192.168.1.224/27 via 0.0.0.0 in 1 hops
+*Apr 14 17:09:24.191:      192.168.100.0/24 via 0.0.0.0 in 16 hops 
+ (inaccessible)
+*Apr 14 17:09:25.543: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:09:25.543: RIP: build update entries
+*Apr 14 17:09:25.547: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:25.547: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:25.547: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:09:25.547: 	192.168.100.0/24 via 0.0.0.0, metric 16, tag 0
+*Apr 14 17:09:40.339: RIP: received v2 update from 192.168.1.129 on
+ FastEthernet1/1
+*Apr 14 17:09:40.339:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:09:46.243: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:09:46.243: RIP: build update entries
+*Apr 14 17:09:46.243: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:09:46.247: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:46.247: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:53.971: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:09:53.971: RIP: build update entries
+*Apr 14 17:09:53.971: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:53.975: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:09:53.975: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:10:07.383: RIP: received v2 update from 192.168.1.129 on
+ FastEthernet1/1
+*Apr 14 17:10:07.383:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:10:13.087: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:10:13.087: RIP: build update entries
+*Apr 14 17:10:13.087: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:10:13.087: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:13.091: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:22.991: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:10:22.991: RIP: build update entries
+*Apr 14 17:10:22.991: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:22.995: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:22.995: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:10:32.907: RIP: received v2 update from 192.168.1.129 on
+ FastEthernet1/1
+*Apr 14 17:10:32.907:      192.168.1.0/25 via 0.0.0.0 in 1 hops
+*Apr 14 17:10:42.323: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet2/0 (192.168.1.161)
+*Apr 14 17:10:42.323: RIP: build update entries
+*Apr 14 17:10:42.323: 	192.168.1.0/25 via 0.0.0.0, metric 2, tag 0
+*Apr 14 17:10:42.327: 	192.168.1.128/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:42.327: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:48.643: RIP: sending v2 update to 255.255.255.255 via
+ FastEthernet1/1 (192.168.1.130)
+*Apr 14 17:10:48.643: RIP: build update entries
+*Apr 14 17:10:48.643: 	192.168.1.160/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:48.647: 	192.168.1.192/27 via 0.0.0.0, metric 1, tag 0
+*Apr 14 17:10:48.647: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
+\end{verbatim}
+
+ Mostre no trace apenas um exemplo de cada, devidamente identificado.  ?????
+ 
+\subparagraph{b.}
+ Em que consiste e para que serve o mecanismo de route poisoning?     ??????
+ 
+\subparagraph{c.}
+Para que servem os temporizadores invalid timer, holddown timer e flush timer? Explique por palavras suas.   ???????
+
+\paragraph{8.}
+\begin{verbatim}
+R10#ping 192.168.1.162
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.162, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 60/68/92 ms
+\end{verbatim}
+
+Em cada \emph{router}, \textsf{R1}, \textsf{R2} e \textsf{R3}, altera-se a configuração do RIP para usar a versão 1 do protocolo:
+\begin{verbatim}
+version 1
+\end{verbatim}
+
+\begin{verbatim}
+R10#ping 192.168.1.162
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 192.168.1.162, timeout is 2 seconds:
+!!!!!
+Success rate is 100 percent (5/5), round-trip min/avg/max = 40/59/68 ms
+\end{verbatim}
+
+Explique o sucedido.     ??????
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\textwidth, height=0.45\textheight]{8.png}
+\label{fig:captura}
+\caption{Captura na interface F1/1 de \textsf{R3}.}
+\end{figure}
