@@ -121,11 +121,11 @@ Link ID         ADV Router      Age         Seq#       Checksum Tag
 \end{verbatim}
 
 \subparagraph{b.}
-Com base no resultado da alínea anterior e no conhecimento que tem do OSPF, justifique a impossibilidade de fazer a alteração pedida (Corte a ligação entre R6 e R7 (apenas para esta pergunta) de modo a que o percurso dos pacotes seja desviado para atravessar R8 e R9 ). ??????
+O corte da ligação entre \textsf{R6} e \textsf{R7} não fez com que o percurso dos pacotes fosse desviado de modo a atravessar \textsf{R8} e \textsf{R9}, uma vez que, como podemos verificar no \texttt{show ip ospf database} obtido na alínea anterior, o \emph{router} \textsf{R6} "conhece" todos os \emph{routers} envolvidos e em especial o \textsf{R7}, (\texttt{Router Link States (Area 1)}), para a qual tem uma rota intra-área que é sempre preferida pelo OSPF  ???? (não sei se tem a ver com isto ou não, tive a procura de informação mas não sei...)?????
 
 \paragraph{2.}
 \subparagraph{a.}
-Como podemos verificar a baixo, no \emph{router} \textsf{R8}, o estado do vizinho \textsf{R9} fica \texttt{DOWN}, (\texttt{state DOWN}). O evento que ocorreu nesse instante e despoletou essa mudança foi (...). ???
+Como podemos verificar a baixo, no \emph{router} \textsf{R8}, o estado do vizinho \textsf{R9} fica \texttt{DOWN}, (\texttt{state DOWN}). O evento que ocorreu nesse instante e despoletou essa mudança foi o IE2 (ver lista dos eventos de transição na tabela 8-1 do livro Routing TCP/IP, vol.1, 2ª ed).
 
 \begin{verbatim}
 Router#debug ip ospf adj 
@@ -321,10 +321,16 @@ FastEthernet2/0 is up, line protocol is up
 \end{verbatim}
 
 \subparagraph{a.}
-Para cada um dos routers indicados, diga quantas adjacências tem e relacione esse número com papel desempenhado pelo router na rede de acesso múltiplo. ?????
+O \emph{router} \textsf{R3} contêm 2 adjacências, na \texttt{interface FastEthernet 2/0}.\\
+O \emph{router} \textsf{R4} contêm 2 adjacências, na \texttt{interface FastEthernet 1/0}.\\
+O \emph{router} \textsf{R5} contêm 3 adjacências, na \texttt{interface FastEthernet 1/0}.\\
+O \emph{router} \textsf{R6} contêm 1 adjacências, na \texttt{interface FastEthernet 1/0}, 1 adjacências, na \texttt{interface FastEthernet 1/1} e 3 adjacências, na \texttt{interface FastEthernet 2/0}, tendo assim um total de 5 adjacências.\\
+\textsf{R6} é o \emph{Designated Router} e por isso, não é de estranhar que seja o \emph{router} com maior número de adjacências, isto implicaria um grande volume de troca de informações de roteamento.\\
+\textsf{R5} é o segundo \emph{router} com maior número de adjacências e por isso é o \emph{Backup Designated Router}, que tem o papel de toma o lugar do \emph{Designated Router} caso ele falhe.\\
+Já \textsf{R3} e \textsf{R4} são \emph{DROthers} que estabelecem adjacências apenas com o \emph{Designated Router}, \textsf{R6}, e com o \emph{Backup Designated Router}, \textsf{R5}.
 
 \subparagraph{b.}
-Para que serve o Designated Router no OSPF?  ??????
+No OSPF o \emph{Designated Router} serve para gerir o processo de inundação na rede de acesso múltiplo e gerar informação topológica sobre um nó virtual que representa a rede de acesso múltiplo.
 
 \paragraph{4.}
 \subparagraph{a.}
