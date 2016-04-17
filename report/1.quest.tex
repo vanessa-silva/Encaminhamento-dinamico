@@ -334,7 +334,9 @@ No OSPF o \emph{Designated Router} serve para gerir o processo de inundação na
 
 \paragraph{4.}
 \subparagraph{a.}
-Diga qual é o caminho seguido pelos pacotes ICMP echo request e echo reply e explique porquê.    ?????
+O caminho seguido pelos pacotes ICMP \emph{echo request} é do IP 172.16.1.2, \textbf{\texttt{Terminal 2}}, passando por \textbf{\textsf{R7}}, de seguida por \textbf{\textsf{R6}} e por \textbf{\textsf{R8}} chegando ao destino, interface 172.17.0.1 de \textsf{R9}.\\
+O caminho seguido pelos pacotes ICMP \emph{echo reply} é da interface 172.17.0.1 de \textbf{\textsf{R9}} passando por \textbf{\textsf{R7}} e por último chega ao destino, \textbf{\textsf{Terminal 2}}.\\
+Os pacotes ICMP seguem caminhos diferentes por causa das rotas especificadas pelo protocolo OSPF para cada \emph{router}. O \emph{router} \textsf{R7} tem rota definida para \textsf{R9} através de \textsf{R6}, (\texttt{O IA 172.17.0.0/16 [110/40] via 172.20.1.1, 00:16:38, FastEthernet1/0}), enquanto que o \emph{router} \textsf{R9} tem a rota para \textsf{Terminal 2} através de \textsf{R7}, (\texttt{O 172.16.1.0 [110/20] via 172.20.1.5, 00:17:29, FastEthernet1/0}).
 
 \begin{figure}[h]
 \centering
@@ -344,7 +346,8 @@ Diga qual é o caminho seguido pelos pacotes ICMP echo request e echo reply e ex
 \end{figure}
 
 \subparagraph{b.}
-Se conseguiu, diga como; se não conseguiu, explique porquê (texRes). ?????
+Nós tentamos alterar o custo da interface 172.20.1.6 para um valor elevado, (\texttt{ip ospf cost 65000}), para tentar que a ligação se corrompa, de modo a que o percurso do \emph{echo reply} seja o inverso do do \emph{echo request}. Tentamos ainda para o valor máxima, (\texttt{ip ospf cost 65535}), mas não obtemos sucesso.\\
+O percurso não foi alterado pois os \emph{routers} internos de cada área têm penas uma base de dados topológica dessa área. O \emph{router} \textsf{R6} é um \emph{Area Border Router} logo, conhece a topologia das áreas às quais está ligado, área 1 e 2. Deste modo, uma vez que o \textsf{Terminal 2} só pertence à área 1, o melhor caminho continua a ser por essa área, e não passando por outra área, área 2.
 
 \begin{figure}[h]
 \centering
@@ -361,9 +364,9 @@ Se conseguiu, diga como; se não conseguiu, explique porquê (texRes). ?????
 \end{figure}
 
 \paragraph{5.}
-Como podemos verificar na figura seguinte, as mensagens RIP trocadas entre \textsf{R1} e \textsf{R2} são inicialmente enviadas para o IP 255.255.255.255, uma vez que o broadcast estava ativado. Uma vez desativado as mensagens RIP são enviadas para o IP 224.0.0.9.
-
-Explique a vantagem de usar esse endereço em vez do endereço de broadcast?????
+Como podemos verificar na figura seguinte, as mensagens RIP trocadas entre \textsf{R1} e \textsf{R2} são inicialmente enviadas para o IP 255.255.255.255, uma vez que o \emph{broadcast} estava ativado. Uma vez desativado as mensagens RIP são enviadas para o IP 224.0.0.9.\\
+Os \emph{routers} RIP foram configurados de modo a correrem a versão 2 do protocolo, e por isso as mensagens são enviadas para o IP 224.0.0.9, que é um endereço \emph{multicast} "todos os \emph{routers} RIPv2".
+Isto evita que os terminais recebam os anúncios, que não lhes interessam.
 
 \begin{figure}[h]
 \centering
@@ -428,6 +431,9 @@ Explique a vantagem de usar esse endereço em vez do endereço de broadcast?????
 \end{verbatim}
 
 \subparagraph{a.}
+As mensagens enviadas na interface FastEthernet1/1 dizem respeito às redes do lado direito de \textsf{R2}, enquanto que as mensagens enviadas na interface FastEthernet2/0 dizem respeito às redes do lado esquerdo de \textsf{R2}.\\
+Podemos ainda verificar que as mensagens que dizem respeito aos \emph{routers} que correm RIP têm métrica=1 e os que correm OSPF têm métrica=6.
+
 Que diferenças encontra entre as mensagens enviadas numa e noutra interface?  ?????
 
 \subparagraph{b.}
