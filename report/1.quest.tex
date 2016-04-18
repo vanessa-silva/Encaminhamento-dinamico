@@ -588,10 +588,16 @@ Isto evita que os terminais recebam os anúncios, que não lhes interessam.
 As mensagens enviadas na interface FastEthernet1/1 dizem respeito às redes do lado direito de \textsf{R2}, enquanto que as mensagens enviadas na interface FastEthernet2/0 dizem respeito às redes do lado esquerdo de \textsf{R2}.\\
 Podemos ainda verificar que as mensagens que dizem respeito aos \emph{routers} que correm RIP têm métrica=1 e os que correm OSPF têm métrica=6.
 
-Que diferenças encontra entre as mensagens enviadas numa e noutra interface?  ?????
+Cada interface apenas envia informação sobre os destinos e redes
+atingíveis por outras interfaces. FastEthernet 2/0 envia informações
+sobre a rede 192.168.1.0/25, com métrica 2 (pois é calculada pelo
+RIP). FastEthernet1/1 envia informações sobre os destinos alcançáveis
+pela interface FastEthernet2/0, por exemplo 172.16.2.0 com métrica 6
+(importada por OSPF).
 
 \subparagraph{b.}
-Como se chama e para que serve o mecanismo observado na alínea anterior?   ??????
+Este mecanismo chama-se ``split horizon'' - não anunciar numa
+interface as rotas que aprendeu por ela.
 
 \paragraph{7.}
 \begin{verbatim}
