@@ -200,11 +200,100 @@ tipos de anúncios em cada mensagem \emph{LS Update}:
 \end{itemize}
 
 
-\subparagraph{e.}
-Para cada um dos tipos identificados na alínea anterior, diga o que contêm (significado) os campos Link State ID e Advertising Router e identifique e diga o que contêm (significado) outros campos importantes (para a construção do grafo da rede) desse tipo específico, exemplificando com LSA concretos.  ????
+\subparagraph{e.} Campos Link State ID:
+\begin{itemize}
+\item Tipo 1 - ID do router que gerou o LSA.
+\item Tipo 2 - Endereço IP da interface do DR nessa rede.
+\item Tipo 3 - Endereço IP da rede de destino.
+\item Tipo 4 - Router ID do ASBR que gerou o AS External LSA.
+\item Tipo 5 - Endereço IP da rede de destino do External LSA.
+\end{itemize}
+Advertising Router - ID do router que gera o LSA.
+Nos LSA do tipo 1, dentro de cada entrada LSA (LinkID, LinkData,
+LinkType, Metric), podemos construir um grafo com adjacência entre
+destinos e o router que emite o LSA. Exemplo (pacote 25, advertising
+router 0.0.0.8):
+\begin{verbatim}
+Type: Stub     ID: 172.20.1.8      Data: 255.255.255.252 Metric: 10
+    Link ID: 172.20.1.8 - IP network/subnet number
+    Link Data: 255.255.255.252
+    Link Type: 3 - Connection to a stub network
+    Number of Metrics: 0 - TOS
+    0 Metric: 10
+\end{verbatim}
+Nos LSA do tipo 2, a informação em ``Attached router'' permite separar
+o grafo nas suas componentes fortemente conexas, separando-o em
+``áreas'':
+\begin{verbatim}
+LSA-type 2 (Network-LSA), len 32
+    .000 0000 1101 1101 = LS Age (seconds): 221
+    0... .... .... .... = Do Not Age Flag: 0
+    Options: 0x22 ((DC) Demand Circuits, (E) External Routing)
+    LS Type: Network-LSA (2)
+    Link State ID: 172.20.1.13
+    Advertising Router: 0.0.0.8
+    Sequence Number: 0x80000003
+    Checksum: 0xba9b
+    Length: 32
+    Netmask: 255.255.255.252
+    Attached Router: 0.0.0.8
+    Attached Router: 0.0.0.6
+\end{verbatim}
+Nos LSA do tipo 5, podemos acrescentar ao grafo informação sobre os
+destinos externos ao OSPF e a sua adjacência ao ASBR:
+\begin{verbatim}
+LSA-type 5 (AS-External-LSA (ASBR)), len 36
+    .000 0000 1111 0101 = LS Age (seconds): 245
+    0... .... .... .... = Do Not Age Flag: 0
+    Options: 0x20 ((DC) Demand Circuits)
+    LS Type: AS-External-LSA (ASBR) (5)
+    Link State ID: 192.168.1.224
+    Advertising Router: 0.0.0.3
+    Sequence Number: 0x80000003
+    Checksum: 0xb46a
+    Length: 36
+    Netmask: 255.255.255.224
+    1... .... = External Type: Type 2 (metric is larger than any other link state path)
+    .000 0000 = TOS: 0
+    Metric: 100
+    Forwarding Address: 0.0.0.0
+    External Route Tag: 0
+\end{verbatim}
 
 \subparagraph{f.}
-Procure o último anúncio do tipo Router LSA originado pelo router R8. Para cada uma das ligações identificadas nesse anúncio, indique o respectivo tipo, bem como os valores dos campos ID e Data e o seu significado. ?????
+Pacote 1761:
+\begin{verbatim}
+LSA-type 1 (Router-LSA), len 60
+    .000 0000 0000 0101 = LS Age (seconds): 5
+    0... .... .... .... = Do Not Age Flag: 0
+    Options: 0x22 ((DC) Demand Circuits, (E) External Routing)
+    LS Type: Router-LSA (1)
+    Link State ID: 0.0.0.8
+    Advertising Router: 0.0.0.8
+    Sequence Number: 0x80000003
+    Checksum: 0x0de4
+    Length: 60
+    Flags: 0x00
+    Number of Links: 3
+    Type: Transit  ID: 172.20.1.9      Data: 172.20.1.10     Metric: 10
+        Link ID: 172.20.1.9 - IP address of Designated Router
+        Link Data: 172.20.1.10 - endereço IP do router nessa rede
+        Link Type: 2 - Connection to a transit network
+        Number of Metrics: 0 - TOS
+        0 Metric: 10
+    Type: Transit  ID: 172.20.1.13     Data: 172.20.1.13     Metric: 10
+        Link ID: 172.20.1.13 - IP address of Designated Router
+        Link Data: 172.20.1.13 - endereço IP do router nessa rede
+        Link Type: 2 - Connection to a transit network
+        Number of Metrics: 0 - TOS
+        0 Metric: 10
+    Type: Stub     ID: 172.16.2.0      Data: 255.255.255.0   Metric: 10
+        Link ID: 172.16.2.0 - IP network/subnet number (prefixo)
+        Link Data: 255.255.255.0 - máscara da rede
+        Link Type: 3 - Connection to a stub network
+        Number of Metrics: 0 - TOS
+        0 Metric: 10
+\end{verbatim}
 
 \subparagraph{g.}
 Volte a iniciar R7 e aguarde até o encaminhamento estabilizar. Que notificações foram enviadas por R8 a R9? Indique a finalidade de cada uma dessas notificações.
