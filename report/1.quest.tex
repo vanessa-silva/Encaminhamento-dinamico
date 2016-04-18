@@ -121,7 +121,7 @@ Link ID         ADV Router      Age         Seq#       Checksum Tag
 \end{verbatim}
 
 \subparagraph{b.}
-O corte da ligação entre \textsf{R6} e \textsf{R7} não fez com que o percurso dos pacotes fosse desviado de modo a atravessar \textsf{R8} e \textsf{R9}, uma vez que, como podemos verificar no \texttt{show ip ospf database} obtido na alínea anterior, o \emph{router} \textsf{R6} "conhece" todos os \emph{routers} envolvidos e em especial o \textsf{R7}, (\texttt{Router Link States (Area 1)}), para a qual tem uma rota intra-área que é sempre preferida pelo OSPF  ???? (não sei se tem a ver com isto ou não, tive a procura de informação mas não sei...)?????
+O corte da ligação entre \textsf{R6} e \textsf{R7} não fez com que o percurso dos pacotes fosse desviado de modo a atravessar \textsf{R8} e \textsf{R9}, uma vez que, como podemos verificar no \texttt{show ip ospf database} obtido na alínea anterior, o \emph{router} \textsf{R6} "conhece" todos os \emph{routers} envolvidos e em especial o \textsf{R7}, (\texttt{Router Link States (Area 1)}), para a qual tem uma rota intra-área que é sempre preferida pelo OSPF.
 
 \paragraph{2.}
 \subparagraph{a.}
@@ -151,7 +151,15 @@ from FULL to DOWN, Neighbor Down: Dead timer expired
 \end{verbatim}
 
 \subparagraph{b.}
-Explique detalhadamente cada um dos LSA enviados por R8 a R6.????
+\textsf{R8} envia um \emph{Hello packet} para a rede \emph{multicast}
+224.0.0.5, indicando-se como o \emph{Designated Router}. Após receber
+de \textsf{R6} os \emph{LS Update} informando que as ligações para
+172.16.1.0, 172.20.1.4 e 172.20.1.0 se encontram a uma métrica de
+16777215, o que significa que se encontram a uma distância
+infinita/inacessível. \textsf{R8} responde em \emph{multicast} com um
+\emph{LS Acknowledge}. Seguidamente é recebido um \emph{LS Update} de
+\textsf{R6} indicando que o destino 172.20.1.0 se encontra a uma
+métrica de 10. 
 
 \begin{figure}[h]
 \centering
@@ -172,8 +180,25 @@ A mensagem que permite ao \emph{router} \textsf{R9} saber que tem comunicação 
 
 \subparagraph{d.}
 
-Analise todos os anúncios (LSA) contidos em todas as mensagens LS Update trocadas entre R8 e R9. Que tipos de anúncio encontrou? Para que serve cada um desses tipos?
-(este LSA's estou na captura 2g.pcapng) ????
+No ficheiro que contem a captura de \textsf{R8-R9} encontramos vários
+tipos de anúncios em cada mensagem \emph{LS Update}:
+\begin{itemize}
+  \item Tipo 1 - Router LSA - no pacote 25, servindo para o \emph{router} 8
+    identificar e partilhar as suas ligações.
+  \item Tipo 2 - Network LSA - servindo para o \emph{router} designado informar
+    sobre os \emph{routers} ligado ao nó virtual correspondente à rede
+    do DR.
+  \item Tipo 3 - Network Summary - informa sobre os destinos
+    sumarizados com custos a partir do Area Border Router, neste caso
+    o R3.
+  \item Tipo 4 - Rota para o \emph{router Autonomous System Boundary
+    Router} que gerou os LSAs de tipo 5.
+  \item Tipo 5 - AS External LSA - servindo para o \emph{router}
+    informar sobre os destinos externos ao OSPF. Neste caso em
+    particular, as rotas externas são todas do Tipo 2 pois são
+    importadas de uma métrica incompatível com OSPF.
+\end{itemize}
+
 
 \subparagraph{e.}
 Para cada um dos tipos identificados na alínea anterior, diga o que contêm (significado) os campos Link State ID e Advertising Router e identifique e diga o que contêm (significado) outros campos importantes (para a construção do grafo da rede) desse tipo específico, exemplificando com LSA concretos.  ????
