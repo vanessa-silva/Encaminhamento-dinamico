@@ -695,14 +695,14 @@ version 1
 
 \begin{verbatim}
 R10#ping 192.168.1.162
-
-Type escape sequence to abort.
-Sending 5, 100-byte ICMP Echos to 192.168.1.162, timeout is 2 seconds:
-!!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 176/232/296 ms
+PING 192.168.1.162 (192.168.1.162) 56(84) bytes of data.
+^C
+--- 192.168.1.162 ping statistics ---
+29 packets transmitted, 0 received, 100% packet loss, time 
 \end{verbatim}
 
-Os pedidos rip passaram a ser emitidos em broadcast em vez de multicast.....???
+Das principais diferenças entre a versão 1 e 2 do protocolo RIP é que a primeira versão é \emph{classfull}, ou seja, suporta apenas classes A, B ou C ou subredes com a mesma máscara e troca atualizações de encaminhamento via \emph{broadcast}. Já a segunda versão suporta \emph{classless} e VLSM (divisão de subredes com várias máscaras de subrede) e troca informações através de \emph{multicast}.\\
+Vamos focar-nos na segunda característica de cada versão, o primeiro \texttt{ping}, RIP com versão 2, é bem sucedido pois suporta divisão de subredes com máscaras diferentes (na rota que queremos percorrer temos duas máscaras diferentes 255.255.255.128 e 255.255.255.224) o que não é suportado pela versão 1 do protocolo e por essa razão o segundo \texttt{ping}, RIP com versão 1, não é bem sucedido.
 
 \begin{figure}[h]
 \centering
