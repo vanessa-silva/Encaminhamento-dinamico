@@ -150,16 +150,12 @@ from FULL to DOWN, Neighbor Down: Dead timer expired
  FastEthernet1/1
 \end{verbatim}
 
+\newpage
+
 \subparagraph{b.}
-\textsf{R8} envia um \emph{Hello packet} para a rede \emph{multicast}
-224.0.0.5, indicando-se como o \emph{Designated Router}. Após receber
-de \textsf{R6} os \emph{LS Update} informando que as ligações para
-172.16.1.0, 172.20.1.4 e 172.20.1.0 se encontram a uma métrica de
-16777215, o que significa que se encontram a uma distância
-infinita/inacessível. \textsf{R8} responde em \emph{multicast} com um
-\emph{LS Acknowledge}. Seguidamente é recebido um \emph{LS Update} de
-\textsf{R6} indicando que o destino 172.20.1.0 se encontra a uma
-métrica de 10. 
+\textsf{R8} envia um \emph{LS Update} para a rede \emph{multicast} 224.0.0.5 no instante em que deteta que \textsf{R9} "morreu", nesta mensagem é enviado um LSA (\texttt{Router-LSA}).
+O objetivo dos LAS's é permitir construir um grafo dirigido da rede para posteriormente se calcular o caminho mais curto para cada destino.\\
+O \emph{Router LSA}, enviado por \textsf{R8}, serve para este se anunciar e identificar as suas ligações na área a que pertence juntamente com as respetivas métricas, de forma a se poder cumprir com o objetivos dos LSA's. Uma vez que \textsf{R8} deteta que um vizinho, \textsf{R9}, "morreu" este envia um \emph{Router LSA} para se poder "construir" um novo grafo dirigido com a atualização das suas ligações. \textsf{R8} informa então que tem 3 ligações disponíveis ,\texttt{Number of Links=3}, em que uma é de trânsito, \texttt{Type: Transit}, (informando que o endereço IP do \emph{Designated Router} é 172.20.1.13, o próprio \textsf{R8}, e a métrica é 10), e as duas ligações restantes são \emph{stub} (ponta), \textsf{Type: stub}, em que uma tem número de IP da rede/subrede 172.20.1.8 com métrica 10 e a outra tem número de IP da rede/subrede 172.16.2.0 com métrica 10 .
 
 \begin{figure}[h]
 \centering
@@ -169,7 +165,7 @@ métrica de 10.
 \end{figure}
 
 \subparagraph{c.}
-A mensagem que permite ao \emph{router} \textsf{R9} saber que tem comunicação bidirecional (\emph{two-way}) com \textsf{R8} apresenta-se na figura a baixo, devidamente sinalizada. Escolhemos esta mensagem, \emph{Hello Packet}, uma vez que é o sub-protocolo \emph{Hello} que verifica conexões bidirecionais entre os vizinhos. Quando um \emph{router}, \textsf{R8}, deteta o seu \emph{Router ID} num \emph{Hello} recebido, sabe que existe comunicação bidirecional com o vizinho que o enviou, \textsf{R9}, como se pode analisar na figura seguinte.
+A mensagem que permite ao \emph{router} \textsf{R9} saber que tem comunicação bidirecional (\emph{two-way}) com \textsf{R8} apresenta-se na figura 3, devidamente sinalizada. Escolhemos esta mensagem, \emph{Hello Packet}, uma vez que é o sub-protocolo \emph{Hello} que verifica conexões bidirecionais entre os vizinhos. Quando um \emph{router}, \textsf{R8}, deteta o seu \emph{Router ID} num \emph{Hello} recebido, sabe que existe comunicação bidirecional com o vizinho que o enviou, \textsf{R9}, como se pode analisar na figura.
 
 \begin{figure}[h]
 \centering
@@ -178,12 +174,14 @@ A mensagem que permite ao \emph{router} \textsf{R9} saber que tem comunicação 
 \caption{Captura de pacotes na ligação entre \textsf{R8} e \textsf{R9}.}
 \end{figure}
 
+\newpage
+
 \subparagraph{d.}
 
-No ficheiro que contem a captura de \textsf{R8-R9} encontramos vários
+No ficheiro que contem a captura de \textsf{R8-R9} (Capturas Wireshark/2g.pcapng) encontramos vários
 tipos de anúncios em cada mensagem \emph{LS Update}:
 \begin{itemize}
-  \item Tipo 1 - Router LSA - no pacote 25, servindo para o \emph{router} 8
+  \item Tipo 1 - Router LSA - no pacote 25, servindo para o \emph{router} \textsf{R8}
     identificar e partilhar as suas ligações.
   \item Tipo 2 - Network LSA - servindo para o \emph{router} designado informar
     sobre os \emph{routers} ligado ao nó virtual correspondente à rede
@@ -191,14 +189,13 @@ tipos de anúncios em cada mensagem \emph{LS Update}:
   \item Tipo 3 - Network Summary - informa sobre os destinos
     sumarizados com custos a partir do Area Border Router, neste caso
     o R3.
-  \item Tipo 4 - Rota para o \emph{router Autonomous System Boundary
+  \item Tipo 4 - ASBR Summary - Rota para o \emph{router Autonomous System Boundary
     Router} que gerou os LSAs de tipo 5.
   \item Tipo 5 - AS External LSA - servindo para o \emph{router}
     informar sobre os destinos externos ao OSPF. Neste caso em
     particular, as rotas externas são todas do Tipo 2 pois são
     importadas de uma métrica incompatível com OSPF.
 \end{itemize}
-
 
 \subparagraph{e.} Campos Link State ID:
 \begin{itemize}
@@ -208,11 +205,11 @@ tipos de anúncios em cada mensagem \emph{LS Update}:
 \item Tipo 4 - Router ID do ASBR que gerou o AS External LSA.
 \item Tipo 5 - Endereço IP da rede de destino do External LSA.
 \end{itemize}
-Advertising Router - ID do router que gera o LSA.
+Advertising Router - ID do \emph{router} que gera o LSA.
 Nos LSA do tipo 1, dentro de cada entrada LSA (LinkID, LinkData,
 LinkType, Metric), podemos construir um grafo com adjacência entre
-destinos e o router que emite o LSA. Exemplo (pacote 25, advertising
-router 0.0.0.8):
+destinos e o \emph{router} que emite o LSA. Exemplo (pacote 25, \emph{advertising
+router} 0.0.0.8):
 \begin{verbatim}
 Type: Stub     ID: 172.20.1.8      Data: 255.255.255.252 Metric: 10
     Link ID: 172.20.1.8 - IP network/subnet number
@@ -261,7 +258,8 @@ LSA-type 5 (AS-External-LSA (ASBR)), len 36
 \end{verbatim}
 
 \subparagraph{f.}
-Pacote 1761:
+
+O último anúncio do tipo \emph{Router LSA} originado pelo \emph{router} \textsf{R8} é o pacote 1761, do ficheiro Capturas Wireshark/2g.pcapng, que se apresenta a seguir e onde podemos ver, para cada uma das ligações, o respetivo tipo, campos ID e Data e os seus significados:
 \begin{verbatim}
 LSA-type 1 (Router-LSA), len 60
     .000 0000 0000 0101 = LS Age (seconds): 5
@@ -296,7 +294,7 @@ LSA-type 1 (Router-LSA), len 60
 \end{verbatim}
 
 \subparagraph{g.}
-Pacote 1737: Router 8 a Router 9.
+Pacote 1737: \textsf{R8} a \textsf{R9}.
 \begin{verbatim}
 LSA-type 1 (Router-LSA), len 60
     .000 0000 0010 1011 = LS Age (seconds): 43
@@ -330,14 +328,7 @@ LSA-type 1 (Router-LSA), len 60
         0 Metric: 10
 \end{verbatim}
 
-Após um \emph{Hello Packet} (cujo propósito é estabelecer conexões
-bidirecionais) de Router 9, o Router 8 responde com uma \emph{BD
-  Description} cujo propósito é descrever as ligações entre cada
-router com os seus parceiros adjacentes. Seguidamente há um \emph{LS
-  Request} de Router 9 ao Router 10, pedindo informação desta
-forma. Como resposta a este pedido o Router 10 envia um \emph{LS
-  Update}. Cada LSA é finalmente confirmado com um \emph{LS
-  Acknowledge} por cada recetor.
+Após um \emph{Hello Packet} (cujo propósito é estabelecer conexões bidirecionais) de \textsf{R9}, o \emph{router} \textsf{R8} responde com uma \emph{BD Description} cujo propósito é descrever as ligações entre cada \emph{router} com os seus parceiros adjacentes. Seguidamente há um \emph{LS   Request} de \textsf{R9} para \textsf{R10}, \texttt{terminal 1}, pedindo informação desta forma. Como resposta a este pedido o \textsf{R10} envia um \emph{LS Update}. Cada LSA é finalmente confirmado com um \emph{LS Acknowledge} por cada recetor.
 
 \paragraph{3.}
 \emph{Router} \textsf{R3}:
@@ -479,7 +470,7 @@ O \emph{router} \textsf{R3} contêm 2 adjacências, na \texttt{interface FastEth
 O \emph{router} \textsf{R4} contêm 2 adjacências, na \texttt{interface FastEthernet 1/0}.\\
 O \emph{router} \textsf{R5} contêm 3 adjacências, na \texttt{interface FastEthernet 1/0}.\\
 O \emph{router} \textsf{R6} contêm 1 adjacências, na \texttt{interface FastEthernet 1/0}, 1 adjacências, na \texttt{interface FastEthernet 1/1} e 3 adjacências, na \texttt{interface FastEthernet 2/0}, tendo assim um total de 5 adjacências.\\
-\textsf{R6} é o \emph{Designated Router} e por isso, não é de estranhar que seja o \emph{router} com maior número de adjacências, isto implicaria um grande volume de troca de informações de roteamento.\\
+\textsf{R6} é o \emph{Designated Router} e por isso, não é de estranhar que seja o \emph{router} com maior número de adjacências, isto implicaria um grande volume de troca de informações de encaminhamento.\\
 \textsf{R5} é o segundo \emph{router} com maior número de adjacências e por isso é o \emph{Backup Designated Router}, que tem o papel de toma o lugar do \emph{Designated Router} caso ele falhe.\\
 Já \textsf{R3} e \textsf{R4} são \emph{DROthers} que estabelecem adjacências apenas com o \emph{Designated Router}, \textsf{R6}, e com o \emph{Backup Designated Router}, \textsf{R5}.
 
@@ -494,7 +485,7 @@ Os pacotes ICMP seguem caminhos diferentes por causa das rotas especificadas pel
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth, height=0.45\textheight]{4a.png}
+\includegraphics[width=1\textwidth, height=0.35\textheight]{4a.png}
 \label{fig:captura R7}
 \caption{Captura de pacotes na ligação entre as interfaces 172.20.1.2 e 172.20.1.5 de \textsf{R7}.}
 \end{figure}
@@ -505,22 +496,24 @@ O percurso não foi alterado pois os \emph{routers} internos de cada área têm 
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth, height=0.45\textheight]{4b.png}
+\includegraphics[width=1\textwidth, height=0.25\textheight]{4b.png}
 \label{fig:custo da interface}
 \caption{Alteração do custo da interface 172.20.1.6 de \textsf{R9}.}
 \end{figure}
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=1\textwidth, height=0.45\textheight]{4b_.png}
+\includegraphics[width=1\textwidth, height=0.25\textheight]{4b_.png}
 \label{fig:captura}
 \caption{Captura de pacotes na ligação entre as interfaces 172.20.1.2 e 172.20.1.5 de \textsf{R7}.}
 \end{figure}
 
 \paragraph{5.}
-Como podemos verificar na figura seguinte, as mensagens RIP trocadas entre \textsf{R1} e \textsf{R2} são inicialmente enviadas para o IP 255.255.255.255, uma vez que o \emph{broadcast} estava ativado. Uma vez desativado as mensagens RIP são enviadas para o IP 224.0.0.9.\\
+Como podemos verificar na figura 7, as mensagens RIP trocadas entre \textsf{R1} e \textsf{R2} são inicialmente enviadas para o IP 255.255.255.255, uma vez que o \emph{broadcast} estava ativado. Uma vez desativado as mensagens RIP são enviadas para o IP 224.0.0.9.\\
 Os \emph{routers} RIP foram configurados de modo a correrem a versão 2 do protocolo, e por isso as mensagens são enviadas para o IP 224.0.0.9, que é um endereço \emph{multicast} "todos os \emph{routers} RIPv2".
 Isto evita que os terminais recebam os anúncios, que não lhes interessam.
+
+\newpage
 
 \begin{figure}[h]
 \centering
@@ -585,13 +578,12 @@ Isto evita que os terminais recebam os anúncios, que não lhes interessam.
 \end{verbatim}
 
 \subparagraph{a.}
-As mensagens enviadas na interface FastEthernet1/1 dizem respeito às redes do lado direito de \textsf{R2}, enquanto que as mensagens enviadas na interface FastEthernet2/0 dizem respeito às redes do lado esquerdo de \textsf{R2}.\\
-Podemos ainda verificar que as mensagens que dizem respeito aos \emph{routers} que correm RIP têm métrica=1 e os que correm OSPF têm métrica=6.
-
-Que diferenças encontra entre as mensagens enviadas numa e noutra interface?  ?????
+As mensagens enviadas na interface \texttt{FastEthernet1/1} dizem respeito às redes do lado direito de \textsf{R2}, enquanto que as mensagens enviadas na interface \texttt{FastEthernet2/0} dizem respeito às redes do lado esquerdo de \textsf{R2}.\\
+Podemos ainda verificar que as mensagens que dizem respeito aos \emph{routers} que correm RIP têm métrica=1 e os que correm OSPF têm métrica=6.\\
+Cada interface apenas envia informação sobre os destinos e redes atingíveis por outras interfaces. A \texttt{FastEthernet 2/0} envia informações sobre a rede 192.168.1.0/25, com métrica 2 (pois é calculada pelo RIP). A \texttt{FastEthernet1/1} envia informações sobre os destinos alcançáveis pela interface \texttt{FastEthernet2/0}, por exemplo 172.16.2.0 com métrica 6 (importada por OSPF).
 
 \subparagraph{b.}
-Como se chama e para que serve o mecanismo observado na alínea anterior?   ??????
+Este mecanismo chama-se "\emph{split horizon}", e a sua função é não anunciar numa interface as rotas que aprendeu por ela.
 
 \paragraph{7.}
 \begin{verbatim}
@@ -673,13 +665,18 @@ Router#debug ip rip
 *Apr 14 17:10:48.647: 	192.168.1.224/27 via 0.0.0.0, metric 2, tag 0
 \end{verbatim}
 
- Mostre no trace apenas um exemplo de cada, devidamente identificado.  ?????
+Antes do \emph{router} \textsf{R3} ser suspenso, o \emph{router} \textsf{R2} enviou informação pela \texttt{FastEthernet1/1} (ao \textsf{R0}) das rotas à esquerda de \textsf{R2} inclusive a rota da interface que está situada na \texttt{OSPF área 0} de \textsf{R3}. Depois deste ser suspenso essa rota deixou de ser informada pela interface \texttt{FastEthernet1/1} como podemos ver no \emph{debug} do \emph{router} \textsf{R2}.
  
 \subparagraph{b.}
- Em que consiste e para que serve o mecanismo de route poisoning?     ??????
+O mecanismo de \emph{route poisoning} serve para prevenir \emph{loops} de encaminhamento causados por atualizações inconsistentes. Este consiste em não usar caminhos cujo \emph{hop count} (contagem de saltos até ao destino) aumenta, o que pode acontecer quando se forma um \emph{loop}. Se isto acontecer, a rota deixa de ser usada até que uma posterior atualização confirme um novo \emph{hop count}. Basicamente, se uma rede falha,o \emph{router} mais próximo insere na sua tabela o valor de \emph{hop count} de 16 (valor máximo permitido), ficando a rota inatingível. Assim, o protocolo de encaminhamento informa todos os \emph{routers} ligados na rede que uma determinada rota é inválida. Este mecanismo acelera, assim, o processo de convergências. 
  
 \subparagraph{c.}
-Para que servem os temporizadores invalid timer, holddown timer e flush timer? Explique por palavras suas.   ???????
+\begin{itemize}
+\item \emph{invalid timer} - especifica quanto tempo uma rota pode estar na tabela de encaminhamento sem ser atualizada. O valor típico é de 180 segundos.
+\item \emph{holddown timer} - quando um destino é dado como inatingível, o \emph{router} deixa de "acreditar" em anúncios desse destino durante um certo tempo. Ou seja,  controla o tempo entre que uma rota é considerada invalidada ou marcado como inacessível e a sua remoção da tabela de encaminhamento. O valor típico é de 180 segundos.
+\item \emph{flush timer} - conta o tempo desde que foi recebida o último anúncio válido
+para uma rota até ela ser removida da tabela de encaminhamento. O valor típico é de 240 segundos.
+\end{itemize}
 
 \paragraph{8.}
 \begin{verbatim}
@@ -702,10 +699,10 @@ R10#ping 192.168.1.162
 Type escape sequence to abort.
 Sending 5, 100-byte ICMP Echos to 192.168.1.162, timeout is 2 seconds:
 !!!!!
-Success rate is 100 percent (5/5), round-trip min/avg/max = 40/59/68 ms
+Success rate is 100 percent (5/5), round-trip min/avg/max = 176/232/296 ms
 \end{verbatim}
 
-Explique o sucedido.     ??????
+Os pedidos rip passaram a ser emitidos em broadcast em vez de multicast.....???
 
 \begin{figure}[h]
 \centering
