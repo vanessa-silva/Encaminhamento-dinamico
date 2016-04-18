@@ -296,8 +296,48 @@ LSA-type 1 (Router-LSA), len 60
 \end{verbatim}
 
 \subparagraph{g.}
-Volte a iniciar R7 e aguarde até o encaminhamento estabilizar. Que notificações foram enviadas por R8 a R9? Indique a finalidade de cada uma dessas notificações.
-??????
+Pacote 1737: Router 8 a Router 9.
+\begin{verbatim}
+LSA-type 1 (Router-LSA), len 60
+    .000 0000 0010 1011 = LS Age (seconds): 43
+    0... .... .... .... = Do Not Age Flag: 0
+    Options: 0x22 ((DC) Demand Circuits, (E) External Routing)
+    LS Type: Router-LSA (1)
+    Link State ID: 0.0.0.8
+    Advertising Router: 0.0.0.8
+    Sequence Number: 0x80000001
+    Checksum: 0xdab9
+    Length: 60
+    Flags: 0x00
+    Number of Links: 3
+    Type: Stub     ID: 172.20.1.8      Data: 255.255.255.252 Metric: 10
+        Link ID: 172.20.1.8 - IP network/subnet number
+        Link Data: 255.255.255.252
+        Link Type: 3 - Connection to a stub network
+        Number of Metrics: 0 - TOS
+        0 Metric: 10
+    Type: Stub     ID: 172.20.1.12     Data: 255.255.255.252 Metric: 10
+        Link ID: 172.20.1.12 - IP network/subnet number
+        Link Data: 255.255.255.252
+        Link Type: 3 - Connection to a stub network
+        Number of Metrics: 0 - TOS
+        0 Metric: 10
+    Type: Stub     ID: 172.16.2.0      Data: 255.255.255.0   Metric: 10
+        Link ID: 172.16.2.0 - IP network/subnet number
+        Link Data: 255.255.255.0
+        Link Type: 3 - Connection to a stub network
+        Number of Metrics: 0 - TOS
+        0 Metric: 10
+\end{verbatim}
+
+Após um \emph{Hello Packet} (cujo propósito é estabelecer conexões
+bidirecionais) de Router 9, o Router 8 responde com uma \emph{BD
+  Description} cujo propósito é descrever as ligações entre cada
+router com os seus parceiros adjacentes. Seguidamente há um \emph{LS
+  Request} de Router 9 ao Router 10, pedindo informação desta
+forma. Como resposta a este pedido o Router 10 envia um \emph{LS
+  Update}. Cada LSA é finalmente confirmado com um \emph{LS
+  Acknowledge} por cada recetor.
 
 \paragraph{3.}
 \emph{Router} \textsf{R3}:
